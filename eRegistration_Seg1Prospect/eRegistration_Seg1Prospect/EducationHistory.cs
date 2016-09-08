@@ -1,0 +1,157 @@
+﻿using eRegistration_Seg1Prospect.TestData;
+using Microsoft.VisualStudio.TestTools.UITesting;
+using Microsoft.VisualStudio.TestTools.UITesting.HtmlControls;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace eRegistration_Seg1Prospect
+{
+    public class EducationHistory
+    {
+        public static void eReg_EducationHistory()
+        {
+            //Create browserwindow
+            BrowserWindow browind = new BrowserWindow();
+            browind.SearchProperties[UITestControl.PropertyNames.Name] = "Education History";
+
+            /********************/
+            /*School/Institution*/
+            /********************/
+            //Education Level
+            HtmlComboBox eduLvl = new HtmlComboBox(browind);
+            eduLvl.SearchProperties[HtmlComboBox.PropertyNames.Id] = "School1_edu_level_code";
+            string eduLevel = (string)eduLvl.GetProperty(HtmlComboBox.PropertyNames.SelectedItem);
+
+
+            //Education Level Explanation (only if Other)
+            HtmlTextArea edulvlexp = new HtmlTextArea(browind);
+            edulvlexp.SearchProperties[HtmlTextArea.PropertyNames.Id] = "School1_edu_level_code_explain";
+
+
+            //Attended/Graduated School As (provide Legal First and Last Name only)
+            HtmlEdit AttendedName = new HtmlEdit(browind);
+            AttendedName.SearchProperties[HtmlEdit.PropertyNames.Id] = "School1_attended_name";
+            string name = (string)AttendedName.GetProperty(HtmlEdit.PropertyNames.Text);
+
+            //School/Institution Name (specify if a satellite campus or online)
+            HtmlEdit School = new HtmlEdit(browind);
+            School.SearchProperties[HtmlEdit.PropertyNames.Id] = "School1";
+            string schoolname = (string)School.GetProperty(HtmlEdit.PropertyNames.Text);
+
+
+            //City
+            HtmlEdit ct = new HtmlEdit(browind);
+            ct.SearchProperties[HtmlEdit.PropertyNames.Id] = "School1_city";
+            string schoolcity = (string)ct.GetProperty(HtmlEdit.PropertyNames.Text);
+
+            //State/Prov.
+            HtmlComboBox prov = new HtmlComboBox(browind);
+            prov.SearchProperties[HtmlComboBox.PropertyNames.Id] = "School1_state";
+            string schoolstate = (string)prov.GetProperty(HtmlComboBox.PropertyNames.SelectedItem);
+
+            //Country
+            HtmlComboBox ctry = new HtmlComboBox(browind);
+            ctry.SearchProperties[HtmlComboBox.PropertyNames.Id] = "School1_country";
+            string schoolCountry = (string)ctry.GetProperty(HtmlComboBox.PropertyNames.SelectedItem);
+
+            //Date attended from yyyy
+            HtmlEdit From = new HtmlEdit(browind);
+            From.SearchProperties[HtmlEdit.PropertyNames.Id] = "School1_from";
+            string schoolfrom = (string)From.GetProperty(HtmlEdit.PropertyNames.Text);
+
+            //Date attended to yyyy
+            HtmlEdit dateto = new HtmlEdit(browind);
+            dateto.SearchProperties[HtmlEdit.PropertyNames.Id] = "School1_to";
+
+            //Status
+            HtmlComboBox status = new HtmlComboBox(browind);
+            status.SearchProperties[HtmlComboBox.PropertyNames.Id] = "School1_status";
+
+
+            //Expected Completion/Graduation Date  mm/dd/yyyy
+            HtmlEdit GraduationDate = new HtmlEdit(browind);
+            GraduationDate.SearchProperties[HtmlEdit.PropertyNames.Id] = "School1_graduate";
+
+
+            //GPA
+            HtmlEdit GPA = new HtmlEdit(browind);
+            GPA.SearchProperties[HtmlEdit.PropertyNames.Id] = "School1_GPA";
+
+
+            //Discipline
+            HtmlComboBox Disc = new HtmlComboBox(browind);
+            Disc.SearchProperties[HtmlComboBox.PropertyNames.Id] = "School1_Discipline";
+            string discipline = (string)Disc.GetProperty(HtmlComboBox.PropertyNames.SelectedItem);
+
+            //Button "Save And Continue" 
+            HtmlInputButton SaveNContinue = new HtmlInputButton(browind);
+            SaveNContinue.SearchProperties[HtmlInputButton.PropertyNames.Id] = "ForwardButton_button";
+
+            
+
+            /*****************/
+            /* Progress Meter*/
+            /*****************/
+            HtmlCustom progress = new HtmlCustom(browind);
+            progress.SearchProperties[HtmlCustom.PropertyNames.Id] = "progressmeter";
+            bool availabilty = (bool)progress.GetProperty(HtmlCustom.PropertyNames.Exists);
+            string workflowEvent = PersonalInformation1.ReadData(1, "WORKFLOW");
+            if (workflowEvent == "S1PROSPECT")
+            {
+                Assert.IsTrue(availabilty, "Progress Meter is not showing");
+
+                HtmlSpan bar = new HtmlSpan(browind);
+                bar.SearchProperties[HtmlSpan.PropertyNames.Id] = "meterlabel";
+                string percentage = (string)bar.GetProperty(HtmlSpan.PropertyNames.InnerText);
+                Assert.AreEqual(percentage, "40%");
+                
+
+            }
+            else
+            {
+                Assert.IsFalse(availabilty, "Progress Meter is showing");
+            }
+
+
+
+            HtmlHyperlink del = new HtmlHyperlink(browind);
+            del.SearchProperties[HtmlHyperlink.PropertyNames.InnerText] = "Delete";
+            while (del.TryFind())
+	        {
+	            Mouse.Click(del);
+                browind.WaitForControlReady(200);
+	        } 
+
+            //Fill in mandatory field
+           
+            eduLvl.SetProperty(HtmlComboBox.PropertyNames.SelectedItem, PersonalInformation1.ReadData(1, "EducationLevel"));
+            AttendedName.SetProperty(HtmlEdit.PropertyNames.Text, PersonalInformation1.ReadData(1, "EducationAttendedName"));
+            School.SetProperty(HtmlEdit.PropertyNames.Text, PersonalInformation1.ReadData(1, "EducationSchoolName"));
+            ct.SetProperty(HtmlEdit.PropertyNames.Text, PersonalInformation1.ReadData(1, "EducationCity"));
+            prov.SetProperty(HtmlComboBox.PropertyNames.SelectedItem, PersonalInformation1.ReadData(1, "EducationState"));
+            From.SetProperty(HtmlEdit.PropertyNames.Text, PersonalInformation1.ReadData(1, "EducationAttendedFrom"));
+            Mouse.MoveScrollWheel(-100);
+            status.SetProperty(HtmlComboBox.PropertyNames.SelectedItem, PersonalInformation1.ReadData(1, "EducationStatus"));
+                string selectedstatus = (string)status.GetProperty(HtmlComboBox.PropertyNames.SelectedItem);
+                if (selectedstatus == "Completed/Graduated")
+                {
+                    GraduationDate.SetProperty(HtmlEdit.PropertyNames.Text, PersonalInformation1.ReadData(1, "GraduationDate"));
+                }
+            Disc.SetProperty(HtmlComboBox.PropertyNames.SelectedItem, PersonalInformation1.ReadData(1, "EducationDiscipline"));
+            
+            Mouse.MoveScrollWheel(-200);
+                          
+
+            //Click "Save N Continue" button
+            Mouse.Click(SaveNContinue);
+
+            browind.WaitForControlReady(500);
+
+        }
+    }
+
+}

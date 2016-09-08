@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<OrderedTest name="orderedtest1" storage="c:\users\shym005\documents\visual studio 2013\projects\eregistration_seg1prospect\eregistration_seg1prospect\orderedtest1.orderedtest" id="e6d64b84-0ba9-4547-aa74-7b0da7f8c6a4" continueAfterFailure="true" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestLinks>
+    <TestLink id="b63c8869-528c-8d2e-70f7-fd99c8ce2a07" name="eReg_Segmented_Wyoming" storage="bin\debug\eregistration_seg1prospect.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="e2fc33a5-562a-64ff-3978-8b12f969c050" name="eReg_ToBeTested" storage="bin\debug\eregistration_seg1prospect.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  </TestLinks>
+</OrderedTest>
