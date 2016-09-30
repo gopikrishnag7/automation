@@ -194,9 +194,13 @@ namespace eRegistration_Seg1Prospect
             HtmlInputButton SaveNContinue = new HtmlInputButton(browind);
             SaveNContinue.SearchProperties[HtmlInputButton.PropertyNames.Id] = "ForwardButton_button";
             SaveNContinue.DrawHighlight();
-
             Mouse.Click(SaveNContinue);
 
         }
+
     }
+
+
 }
+
+
